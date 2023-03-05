@@ -11,35 +11,47 @@ public class MainExamples {
 
     public void dataTypes(){
 
-        //бинарный тип данных
+        // бинарный тип данных
         boolean aBool = true;
 
-        //целочисленные типы данных
+        // целочисленные типы данных
         byte abyte = -128;// 8bit // -128 до 127 (2^(bit - 1))
-        abyte = (byte) (abyte +1); // если кладём в bite тип int нужно указывать (byte), если в int положим bite, то сменится автоматически
+        abyte = (byte) (abyte +1); // если кладём в bite тип int нужно указывать тип (byte), если в int положим bite, то сменится автоматически
         short ashort = -32768; // 16bit // -32 768 до 32 767
         int aint = 2147483647; // 32bit // -2 147 483 648 до 2 147 483 647 // используем
         long along = 9223372036854775807L; // 64bit // –9 223 372 036 854 775 808 до 9 223 372 036 854 775 807
 
-        //типы данных с плавающей точкой
+        // типы данных с плавающей точкой
         float afloat = 1.0F; // 32bit
         double adouble= 1.0; // 64bit (1.0D) // используем* если не нужны мат операции
         char achar = 'a'; //символ
 
+        // Переполнение
         // Если переполнили переменную значением (положили в short 130) присвоется значение 0
-        //byte overbyte0 = 128; // сразу отображает ошибку error: incompatible types: possible lossy conversion from int to byte
-        //System.out.println(overbyte3);
+        // byte overbyte0 = 128; // сразу отображает ошибку error: incompatible types: possible lossy conversion from int to byte
         byte overbyte1 = 127;
-        byte overbyte2 = 126;
+        byte overbyte2 = 1;
         byte overbyte3 = (byte) (overbyte1 + overbyte2);
-        System.out.println(overbyte3);// после переполнения появляется знак '-', ответ '-119'
+        System.out.println(overbyte3);// после переполнения появляется знак '-', ответ '-128'
+
+        // Комбинация типов данных
+        int comboint = 1;
+        double combodouble = 1.1;
+        System.out.println(comboint + combodouble); // 2.1 Будет выбран тип данных, позволяющий точно передать значение
     }
 
-
+    @Test
     public void operators(){
 
         // 1. Присвоение "="
         int a = 1;
+        int b = 4;
+        int c = 3;
+        a +=2; // прибавит 2
+        b -=2; // вычтет 2
+        a *=2; // умножит на 2
+        b /=2; // разделит на 2
+        c %=2; // присвоит остаток от деления на 2
 
         // 2. Математические '-', '+', '*', '/', '%'
         int resa = 5-3; // 2
@@ -57,16 +69,29 @@ public class MainExamples {
         System.out.println("Result =" + (3==3)); // true
 
         // 4. Логические операторы '|' - или, '||' - или расширенное, '&' - и, '&&' - и расширенное, '!' - отпицание не,
-        if (3 > 2 & 4 > 3){System.out.println("Happy");}
-        // если используем && то при отрицательном результате до && дальше вычисление идти не будет
-        Integer aCompare = 5;
-        if (aCompare != null && aCompare.toString().length() == 3){
-            System.out.println("No error result");
+        if (c > b & b > a){
+            System.out.println("ResultA");;
         } else {
-            System.out.println("No error result");
-        } // если поставить & то в строке a.lenght() вылетит NPE
-        if (3 > 5 || 4 > 3){System.out.println("Happy");} else {}
-        if (!(3 == 2 || 4 < 3)){System.out.println("Happy");} else {} // знак ! меняет полярность true->false
+            System.out.println("ResultB");
+        }
+        // если используем && то при отрицательном результате в первой части дальше вычисление идти не будет
+        // если поставить & то строка aCompare.toString().length() приведёт к ошибке
+        Integer aCompare = 5;
+        if (aCompare != null && aCompare.toString().length() == 1){
+            System.out.println("ResultA");
+        } else {
+            System.out.println("ResultB");
+        }
+        if (a > b || c > a){
+            System.out.println("ResultA");
+        } else {
+            System.out.println("ResultB");
+        }
+        if (!(a == b || c < a)){
+            System.out.println("ResultA");
+        } else {
+            System.out.println("ResultB");
+        } // знак ! меняет полярность true->false
 
         // 5. Тернарный оператор
         int valueTer1 = (true) ? 10 : 20; //присвоит 10
@@ -77,7 +102,11 @@ public class MainExamples {
 
         // 6. instanceof // проверка типа переменной
         String s = "string";
-        if (s instanceof String) {System.out.println("Happy");} else {}
+        if (s instanceof String) {
+            System.out.println("ResultA");
+        } else {
+            System.out.println("ResultB");
+        }
 
         // 7. Wrapper types для использования примитивов там где их использовать нельзя, например в List<Integer>
         // boxing - unboxing - процес перевода int в Integer (в ожидаемые Integer можно передавать int и наоборот)
